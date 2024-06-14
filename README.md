@@ -1,7 +1,7 @@
 # Pong with Deep-Q Learning
 ## Project Description
 This program teaches an agent to play pong using Deep-Q learning. The repository contains a file for the agent class and a file for the pong game. The neural network was coded using **only** numpy. The code for pong game was sourced from [Geeks for Geeks](https://www.geeksforgeeks.org/create-a-pong-game-in-python-pygame/) and was modified to provide agents with the necessary information to learn. 
-
+![image](https://github.com/rhuangr/Pong-Deep-Q-Learning/assets/170949635/566f4e94-e3b1-4863-ae8f-1f6ea1c84dd6)
 The agents folder contains two files with the agents that I have trained. If you wish to see how those perform, simply move the `leftAgent.npz` and `rightAgent.npz` in the same directory as pongGame.py and follow the installation steps below 😸. These agents were not trained for a long time, so they do occasionally miss the ball (for some reason, the left Agent also performs significantly better than its right counterpart). I am certain that if you kept training them, they would perform improve to never miss the ball. 
 ## Installation
 1.  Clone the repository.
@@ -28,6 +28,6 @@ Every game state is represented with 5 features. Furthermore, every value within
 ## Bugs
 RL agents are very effective at finding bugs in programs. Initally, after training the agents exclusively on bouncing the ball. Agents found a bug in the initial pong game, which allowed the ball to be bounced against the goal wall for a short period of time. 
 
- <video loop src="[movie.mp4](https://github.com/rhuangr/Pong-Deep-Q-Learning/assets/170949635/245d0f56-b1ec-4cf4-b2e7-29255023aa7d)">  video </video> 
+https://github.com/rhuangr/Pong-Deep-Q-Learning/assets/170949635/245d0f56-b1ec-4cf4-b2e7-29255023aa7d
 
 The bug was simple to fix: set a number of frames for which the agent cannot earn further rewards from bouncing the ball. 
