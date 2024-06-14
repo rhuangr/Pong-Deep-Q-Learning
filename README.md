@@ -28,4 +28,6 @@ Every game state is represented with 5 features. Furthermore, every value within
 ## Bugs
 RL agents are very effective at finding bugs in programs. Initally, after training the agents exclusively on bouncing the ball. Agents found a bug in the initial pong game, which allowed the ball to be bounced against the goal wall for a short period of time. 
 
+https://github.com/rhuangr/Pong-Deep-Q-Learning/assets/170949635/245d0f56-b1ec-4cf4-b2e7-29255023aa7d
+
 The bug was simple to fix: set a number of frames for which the agent cannot earn further rewards from bouncing the ball. 
