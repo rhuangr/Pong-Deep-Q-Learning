@@ -6,27 +6,13 @@ from collections import deque
 
 ACTIONS = ["up", "down"]
 
-
-#SUPPOSE REWARD OF -1 WHENEVER YOU MISS A BALL, THEN AGENT MIGHT JUST PICK A SPOT FOR WHICH HE HAS A CHANCE OF HITTING THE BALL FOR EXAMPLE IN A CORDER
-#TO AVOID NEGATIVE REWARDS IN GENERAL
-
-# this reinforcement learning neural network took SO MUCH MORE TIME than the normal neural network.
-# failed to understand bellman equation, was confused about how to substract the target argmax when it is a scalar.
-# realized how important, rewards epsilon and learning rate was.
-# in the end, I had to guide the agent with small rewards upon following the ball, orelse i got anxious about not converging.
-
-# interesting bug: at first, I gave a reward for the agent hitting the ball. But due to a bug where the ball could
-# get stuck behind the pong and bounce off the terminal state wall without ending the game, this would result in the agent
-# moving to to clip the ball and bounce it 10 times, rather than consistenly sending the ball back.
-
 class NN:
     
-    def __init__(self, layerSizes: list[int]) -> None:
+    def __init__(self, layerSizes: list[int]):
         self.inputSize = layerSizes[0]
         self.hiddenLayerSize = layerSizes[1]
         self.outputSize = layerSizes[2]
         
-
         self.weights1 = np.random.randn(self.hiddenLayerSize, self.inputSize)
         self.weights2 = np.random.randn(self.outputSize, self.hiddenLayerSize)
         
@@ -41,7 +27,7 @@ class NN:
         
         self.epsilon = 0.8
         self.gamma = 0.95
-        self.learningRate = 0.0001
+        self.learningRate = 0.001
         self.maxReplayMemory = 10_000
         self.batchSize = 175
         self.memory = deque(maxlen=self.maxReplayMemory)
@@ -80,14 +66,14 @@ class NN:
     def targetForwardPass(self, input):
         a1 =  self.sigmoid(np.dot(self.targetWeights1, np.reshape(input, (self.inputSize, 1))) + self.targetBiases1)
         a2 = self.sigmoid(np.dot(self.targetWeights2, a1)+ self.targetBiases2) 
-        return np.max(a2), np.argmax(a2)
+        return np.max(a2)
         
-    # called on a memory batch, remember value changed from the time when you first computed it
+    # called on a batch sampled from memory
     def backProp(self, stateTuple):
         state, action, reward, nextState, done = stateTuple
         a,z = self.forwardPass(state)
         
-        target, targetIndex = self.targetForwardPass(nextState)
+        target = self.targetForwardPass(nextState)
         target = reward if done else reward + self.gamma*target
         
         targetVertex = copy.deepcopy(a[-1])
@@ -95,27 +81,12 @@ class NN:
         
         delta = a[-1] - targetVertex
         
-        # prevActionV = a[-1][action]
-
         self.biases2 = self.biases2 - self.learningRate*delta
         self.weights2 = self.weights2 - self.learningRate*(delta * a[-2].T)
         delta = np.dot(self.weights2.T, delta) *  self.sigmoidDerivative(z[-2])
         self.biases1 = self.biases1 -  self.learningRate* delta
         self.weights1 = self.weights1- self.learningRate * np.dot(delta, np.reshape(a[0], (1, self.inputSize)))
-        
-        # a,z = self.forwardPass(state)
-        # if reward != 0:
-        #     if reward > 0:
-        #         if a[-1][action] - prevActionV < 0:
-        #             self.neg += 1
-        #         print(f"target: {targetVertex} predicted: {a[-1]}")
-        #         print(f"action: {action} reward: {reward} targetAction: {targetIndex}")
-        #         print(f"action: {action} changed by: {a[-1][action] - prevActionV}")
-                
-        #         self.total += 1
-        #         print(self.neg/self.total)
-        #         print()
-        
+
     def getBatch(self):
         return random.sample(self.memory, self.batchSize)
     

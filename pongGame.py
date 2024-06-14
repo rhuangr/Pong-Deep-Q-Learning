@@ -72,8 +72,6 @@ class Striker:
         self.posy = HEIGHT/2
  
 # Ball class
- 
- 
 class Ball:
     def __init__(self, posx, posy, radius, speed, color):
         self.posx = posx
@@ -132,8 +130,6 @@ class Ball:
         return self.ball
  
 # Game Manager
- 
-
 def gameLoop():
 
     
@@ -257,7 +253,6 @@ def gameLoop():
         ballX = normalize(ball.posx, WIDTH)
         
         # this block of code rewards the agent for following the ball with the board
-        
         if ballX < 0 and ball.xFac == -1:
             agentY = normalize(geek1.posy, HEIGHT)
             if abs(ballY - agentY) < 0.25:
@@ -277,8 +272,7 @@ def gameLoop():
                 rewardRight = -0.05
                 
 
-        # this block of code rewards the agent for moving in the direction of the ball
-        
+        # this block of code rewards the agent for moving in the direction of the ball 
         # if (ballY - agentY) < -0.5:  
         #     if actionIndexR == 0:
         #         rewardRight = 0.1
