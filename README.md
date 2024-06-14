@@ -33,3 +33,14 @@ RL agents are very effective at finding bugs in programs. Initally, after traini
 https://github.com/rhuangr/Pong-Deep-Q-Learning/assets/170949635/245d0f56-b1ec-4cf4-b2e7-29255023aa7d
 
 The bug was simple to fix: set a number of frames for which the agent cannot earn further rewards from bouncing the ball. 
+
+## Final notes
+- You can change the amount of neurons in each layer, but not the amount of layers.
+  You can freely add neurons to the hidden layer without impacting the functionality.
+  However, if you wish to change the amount of input neurons, you will consequently need to change the features of the network.
+  You can do so, by adding or removing features in the nested method `getState()` inside the `gameLoop()` function.
+- Feel free to change the parameters of the neural network.
+  1. The **epsilon** ($\epsilon$) is initilly set to 1 and reduced gradually over training.
+  2. The **learning rate** ($\alpha$) is set to 0.001. You can experiment with different values, but I wouldn't recommend changing this too much since it might considerably hinder learning.
+  3. The **discount rate** ($\gamma$) is set to 0.95. The concept of this paramater is clear to me, yet I have concrete idea about what would happen to the learning process, if this parameter were to be changed.
+  4. The **activation function** used is the sigmoid function. Agent.py includes a method for the ReLU activation function and its derivative. If you wish to use this function, modify `forwardPass()` and `backProp()`
